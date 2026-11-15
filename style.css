@@ -1,0 +1,487 @@
+/* =========================
+   QUICK BITE - MAIN DESIGN
+   ========================= */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #4e342e;
+    text-align: center;
+
+    background:
+        radial-gradient(circle at 5% 10%, #f8bbd0 0 70px, transparent 71px),
+        radial-gradient(circle at 95% 20%, #ffccbc 0 85px, transparent 86px),
+        radial-gradient(circle at 10% 90%, #ffe082 0 85px, transparent 86px),
+        radial-gradient(circle at 90% 90%, #d7ccc8 0 75px, transparent 76px),
+        linear-gradient(135deg, #fff0f5, #ffe5d0, #fff8e1);
+
+    min-height: 100vh;
+}
+
+
+/* =========================
+   MAIN CONTAINER
+   ========================= */
+
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 25px auto;
+    background: rgba(255, 255, 255, 0.88);
+    padding: 25px;
+    border-radius: 25px;
+    border: 2px solid rgba(255, 183, 197, 0.5);
+    box-shadow: 0 10px 30px rgba(121, 85, 72, 0.18);
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   HEADINGS
+   ========================= */
+
+h1 {
+    color: #d84315;
+    margin-bottom: 5px;
+}
+
+h2 {
+    color: #6d4c41;
+}
+
+.container > h2 {
+    margin-top: 5px;
+}
+
+.container > p {
+    margin: 5px;
+}
+
+
+/* =========================
+   MENU + ORDER AREA
+   ========================= */
+
+.ordering-area {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 25px;
+    margin-top: 25px;
+}
+
+
+/* MENU SECTION */
+
+.menu-section {
+    flex: 1;
+}
+
+.menu-section h2 {
+    margin-top: 0;
+}
+
+
+/* MENU - TWO COLUMNS */
+
+.menu {
+    display: grid;
+    grid-template-columns: repeat(2, 200px);
+    justify-content: center;
+    gap: 18px;
+}
+
+
+/* FOOD CARD */
+
+.food {
+    background: #fffaf4;
+    width: 200px;
+    padding: 14px;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(93, 64, 55, 0.15);
+    transition: transform 0.2s;
+    box-sizing: border-box;
+}
+
+.food:hover {
+    transform: translateY(-4px);
+}
+
+
+/* FOOD IMAGE */
+
+.food img {
+    width: 170px;
+    height: 105px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+
+/* FOOD TEXT */
+
+.food h3 {
+    margin: 10px 0 5px;
+    color: #5d4037;
+}
+
+.food p {
+    margin: 5px 0;
+}
+
+.price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #e65100;
+}
+
+
+/* =========================
+   BUTTONS
+   ========================= */
+
+button {
+    border: none;
+    background-color: #ff7043;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #e64a19;
+}
+
+
+/* =========================
+   ORDER SUMMARY
+   ========================= */
+
+.order-summary {
+    width: 250px;
+    min-height: 220px;
+    padding: 18px;
+    background: #fff3e0;
+    border-radius: 18px;
+    border: 2px solid #ffcc80;
+    box-sizing: border-box;
+}
+
+.order-summary h2 {
+    margin-top: 0;
+    color: #d84315;
+}
+
+.order-summary p {
+    background: white;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+#total {
+    color: #388e3c;
+    font-size: 22px;
+}
+
+
+/* =========================
+   CUSTOMER INFORMATION
+   ========================= */
+
+.customer-section {
+    margin-top: 30px;
+    padding: 25px;
+    background: #fff0f5;
+    border-radius: 20px;
+    border: 2px solid #f8bbd0;
+    box-shadow: 0 6px 18px rgba(93, 64, 55, 0.15);
+}
+
+.customer-section h2 {
+    color: #d84315;
+    margin-bottom: 20px;
+}
+
+.customer-section input,
+.customer-section textarea {
+    display: block;
+    width: 500px;
+    max-width: 90%;
+    margin: 12px auto;
+    padding: 14px;
+    border: 2px solid #e8b4bd;
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+    background: white;
+}
+
+.customer-section input {
+    height: 48px;
+}
+
+.customer-section textarea {
+    height: 100px;
+    resize: none;
+}
+
+.customer-section input:focus,
+.customer-section textarea:focus {
+    outline: none;
+    border-color: #e91e63;
+    box-shadow: 0 0 6px rgba(233, 30, 99, 0.25);
+}
+
+
+/* =========================
+   PLACE ORDER BUTTON
+   ========================= */
+
+.place-order {
+    margin-top: 15px;
+    background-color: #e91e63;
+    color: white;
+    padding: 13px 28px;
+    font-size: 16px;
+    border-radius: 10px;
+}
+
+.place-order:hover {
+    background-color: #c2185b;
+}
+
+
+/* =========================
+   VIEW ORDER QUEUE BUTTON
+   ========================= */
+
+.queue-button {
+    display: inline-block;
+    margin: 25px auto;
+    padding: 14px 28px;
+    background-color: #8d6e63;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.queue-button:hover {
+    background-color: #6d4c41;
+}
+
+
+/* =========================
+   CONFIRMATION PAGE
+   ========================= */
+
+.confirmation-container {
+    width: 85%;
+    max-width: 650px;
+    margin: 50px auto;
+    padding: 35px;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 25px;
+    border: 2px solid #f8bbd0;
+    box-shadow: 0 10px 30px rgba(121, 85, 72, 0.20);
+}
+
+.success-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    background: #e91e63;
+    color: white;
+    font-size: 45px;
+    line-height: 70px;
+    font-weight: bold;
+}
+
+.confirmation-container h1 {
+    color: #d84315;
+    margin-bottom: 5px;
+}
+
+.confirmation-message {
+    color: #6d4c41;
+    font-size: 16px;
+}
+
+.receipt {
+    margin-top: 25px;
+    padding: 25px;
+    background: #fff8e1;
+    border-radius: 18px;
+    border: 2px dashed #e8b4bd;
+    text-align: left;
+}
+
+.receipt h2,
+.receipt h3 {
+    text-align: center;
+    color: #d84315;
+}
+
+.customer-details p {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.order-text {
+    white-space: pre-line;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    line-height: 1.8;
+}
+
+.total-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: #fce4ec;
+    border-radius: 12px;
+    font-size: 20px;
+}
+
+.total-box strong {
+    color: #388e3c;
+    font-size: 24px;
+}
+
+.back-button {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 12px 25px;
+    background: #e91e63;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.back-button:hover {
+    background-color: #c2185b;
+}
+
+
+/* =========================
+   RESPONSIVE DESIGN
+   ========================= */
+
+@media (max-width: 850px) {
+
+    .ordering-area {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .order-summary {
+        width: 80%;
+    }
+
+}
+
+
+@media (max-width: 520px) {
+
+    .menu {
+        grid-template-columns: 1fr;
+    }
+
+    .food {
+        width: 220px;
+        margin: auto;
+    }
+
+    .order-summary {
+        width: 90%;
+    }
+
+    .container {
+        width: 95%;
+        padding: 18px;
+    }
+
+}
+.process-button {
+    margin-top: 20px;
+    padding: 13px 25px;
+    background-color: #e65100;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.process-button:hover {
+    background-color: #bf360c;
+}
+.process-button {
+    display: inline-block;
+    margin: 20px auto;
+    padding: 13px 25px;
+    background-color: #e65100;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.process-button:hover {
+    background-color: #bf360c;
+}
+.process-button {
+    display: inline-block;
+    margin: 20px auto;
+    padding: 13px 25px;
+    background-color: #e65100;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.process-button:hover {
+    background-color: #bf360c;
+}
+/* =========================
+   QUEUE NUMBER
+   ========================= */
+
+.queue-number {
+    text-align: center;
+    background: #fce4ec;
+    border: 2px solid #f8bbd0;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.queue-number span {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    color: #6d4c41;
+}
+
+.queue-number strong {
+    display: block;
+    font-size: 32px;
+    color: #e91e63;
+    margin-top: 5px;
+}
