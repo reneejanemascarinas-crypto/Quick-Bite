@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Order Confirmation - Quick Bite</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="confirmation-container">
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+        <h1>🎉 Order Confirmed!</h1>
+
+        <h2>Thank you, {{ name }}! ❤️</h2>
+
+        <p class="confirmation-message">
+            Your Quick Bite order has been successfully received.
+        </p>
+
+
+        <div class="receipt">
+
+            <h2>🧾 Order Receipt</h2>
+
+            <!-- QUEUE NUMBER -->
+
+            <div class="queue-number">
+
+                <span>QUEUE NUMBER</span>
+
+                <strong>#{{ queue_number }}</strong>
+
+            </div>
+
+
+            <!-- CUSTOMER INFORMATION -->
+
+            <div class="customer-details">
+
+                <p>
+                    <strong>👤 Customer:</strong>
+                    {{ name }}
+                </p>
+
+                <p>
+                    <strong>📱 Contact:</strong>
+                    {{ contact }}
+                </p>
+
+                <p>
+                    <strong>📍 Address:</strong>
+                    {{ address }}
+                </p>
+
+            </div>
+
+
+            <hr>
+
+
+            <!-- ORDER -->
+
+            <h3>🛒 Your Order</h3>
+
+            <div class="order-text">
+                {{ order }}
+            </div>
+
+
+            <hr>
+
+
+            <!-- TOTAL -->
+
+            <div class="total-box">
+
+                <span>TOTAL</span>
+
+                <strong>₱{{ total }}</strong>
+
+            </div>
+
+        </div>
+
+
+        <a href="/" class="back-button">
+            ← Back to Menu
+        </a>
+
+
+        <a href="/queue" class="queue-button">
+            📋 View Order Queue
+        </a>
+
+    </div>
+
+</body>
+
+</html>

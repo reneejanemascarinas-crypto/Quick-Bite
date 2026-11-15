@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Quick Bite - Food Ordering System</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🍔 QUICK BITE</h1>
+        <h2>Food Ordering System</h2>
+
+        <p>Welcome to Quick Bite!</p>
+        <p>Choose your favorite food and place your order.</p>
+
+        <hr>
+
+        <div class="ordering-area">
+
+            <!-- MENU -->
+            <div class="menu-section">
+
+                <h2>🍴 Our Menu</h2>
+
+                <div class="menu">
+
+                    <!-- BURGER -->
+                    <div class="food">
+
+                        <img src="{{ url_for('static', filename='images/burger.png') }}"
+                             alt="Burger">
+
+                        <h3>🍔 Burger</h3>
+
+                        <p>Classic Beef Burger</p>
+
+                        <p class="price">₱99</p>
+
+                        <button onclick="addToOrder('Burger', 99)">
+                            Add to Order
+                        </button>
+
+                    </div>
+
+
+                    <!-- FRIES -->
+                    <div class="food">
+
+                        <img src="{{ url_for('static', filename='images/fries.jpg') }}"
+                             alt="Fries">
+
+                        <h3>🍟 Fries</h3>
+
+                        <p>Crispy French Fries</p>
+
+                        <p class="price">₱59</p>
+
+                        <button onclick="addToOrder('Fries', 59)">
+                            Add to Order
+                        </button>
+
+                    </div>
+
+
+                    <!-- COKE -->
+                    <div class="food">
+
+                        <img src="{{ url_for('static', filename='images/coke.jpg') }}"
+                             alt="Coke">
+
+                        <h3>🥤 Coke</h3>
+
+                        <p>Cold Soft Drink</p>
+
+                        <p class="price">₱40</p>
+
+                        <button onclick="addToOrder('Coke', 40)">
+                            Add to Order
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ORDER SUMMARY -->
+            <div class="order-summary">
+
+                <h2>🛒 Your Order</h2>
+
+                <div id="orderList">
+                    <p>No items added yet.</p>
+                </div>
+
+                <hr>
+
+                <h3>
+                    Total: ₱<span id="total">0</span>
+                </h3>
+
+            </div>
+
+        <!-- CUSTOMER INFORMATION -->
+
+<div class="customer-section">
+
+    <h2>👤 Customer Information</h2>
+
+    <form action="/place-order" method="POST">
+
+        <input
+            type="text"
+            name="name"
+            placeholder="Enter your name"
+            required
+        >
+
+        <input
+            type="text"
+            name="contact"
+            placeholder="Enter your contact number"
+            required
+        >
+
+        <textarea
+            name="address"
+            placeholder="Enter your address"
+            required
+        ></textarea>
+
+        <input type="hidden" name="order" id="orderData">
+
+        <input type="hidden" name="total" id="totalData">
+
+        <button type="submit" class="place-order"
+                onclick="prepareOrder()">
+            🛒 Place Order
+        </button>
+
+        <a href="/queue" class="queue-button">
+    📋 View Order Queue
+</a>
+
+    </form>
+
+</div>
+</div>
+
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+    let order = [];
+
+    function addToOrder(foodName, price) {
+
+        let existingItem = order.find(function(item) {
+            return item.name === foodName;
+        });
+
+        if (existingItem) {
+
+            existingItem.quantity++;
+
+        } else {
+
+            order.push({
+                name: foodName,
+                price: price,
+                quantity: 1
+            });
+
+        }
+
+        displayOrder();
+    }
+
+
+    function removeFromOrder(foodName) {
+
+        order = order.filter(function(item) {
+            return item.name !== foodName;
+        });
+
+        displayOrder();
+    }
+
+
+    function displayOrder() {
+
+        let orderList = document.getElementById("orderList");
+
+        orderList.innerHTML = "";
+
+        let total = 0;
+
+
+        if (order.length === 0) {
+
+            orderList.innerHTML = "<p>No items added yet.</p>";
+
+        } else {
+
+            order.forEach(function(item) {
+
+                let itemTotal = item.price * item.quantity;
+
+                total = total + itemTotal;
+
+
+                let itemDiv = document.createElement("div");
+
+                itemDiv.innerHTML =
+                    "<p>" +
+                    item.name +
+                    " × " +
+                    item.quantity +
+                    " = ₱" +
+                    itemTotal +
+                    "</p>" +
+
+                    "<button onclick=\"removeFromOrder('" +
+                    item.name +
+                    "')\">" +
+                    "Remove" +
+                    "</button>";
+
+                orderList.appendChild(itemDiv);
+
+            });
+
+        }
+
+
+        document.getElementById("total").textContent = total;
+
+    }
+
+function prepareOrder() {
+
+    let orderData = "";
+
+    order.forEach(function(item) {
+
+        orderData +=
+            item.name +
+            " x " +
+            item.quantity +
+            " = ₱" +
+            (item.price * item.quantity) +
+            "\n";
+
+    });
+
+    let total = 0;
+
+    order.forEach(function(item) {
+
+        total += item.price * item.quantity;
+
+    });
+
+    document.getElementById("orderData").value = orderData;
+
+    document.getElementById("totalData").value = total;
+
+}
+</script>
+
+        
+
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Order - Quick Bite</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .edit-wrapper {
+            max-width: 750px;
+            margin: auto;
+        }
+
+        .edit-menu {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .menu-option {
+            background: #fff;
+            padding: 15px 8px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .menu-option h3 {
+            margin: 5px 0;
+        }
+
+        .menu-option p {
+            margin: 5px 0 12px;
+        }
+
+        .menu-option button {
+            width: 100%;
+        }
+
+        .order-total-row {
+            display: block;
+            width: 100%
+            margin-top: 20px;
+        }
+
+        .order-box {
+            width: 100%;
+            box-sizing: border-box;
+        
+            
+        }
+
+        .order-box textarea {
+            width: 100%;
+            min-height: 130px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+
+        .total-box input {
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .customer-box {
+            margin-top: 25px;
+            padding: 18px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+        }
+
+        .customer-box input {
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 12px;
+        }
+
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            padding: 8px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .item-row button {
+            padding: 5px 10px;
+        }
+
+        @media (max-width: 550px) {
+            .edit-menu {
+                grid-template-columns: 1fr;
+            }
+
+            .order-total-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="confirmation-container edit-wrapper">
+
+    <h1>🍔 QUICK BITE</h1>
+    <h2>✏️ Edit Customer Order</h2>
+
+    <p>Queue #{{ customer.queue_number }}</p>
+
+    <hr>
+
+    <!-- MENU -->
+
+    <h2>🍴 Add More Items</h2>
+
+    <div class="edit-menu">
+
+        <div class="menu-option">
+            <h3>🍔 Burger</h3>
+            <p>₱99</p>
+            <button type="button" onclick="addItem('Burger')">
+                + Add
+            </button>
+        </div>
+
+        <div class="menu-option">
+            <h3>🍟 Fries</h3>
+            <p>₱59</p>
+            <button type="button" onclick="addItem('Fries')">
+                + Add
+            </button>
+        </div>
+
+        <div class="menu-option">
+            <h3>🥤 Coke</h3>
+            <p>₱40</p>
+            <button type="button" onclick="addItem('Coke')">
+                + Add
+            </button>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <form action="{{ url_for('update_order', queue_number=customer.queue_number) }}"
+          method="POST"
+          onsubmit="return prepareUpdate();">
+
+        <!-- ORDER AND TOTAL SIDE BY SIDE -->
+
+        <div class="order-total-row">
+
+            <div class="order-box">
+
+                <h3>🛒 Order Details</h3>
+
+                <div id="orderList"></div>
+
+                <label>Order Summary:</label>
+
+                <textarea name="order"
+                          id="orderData"
+                          readonly
+                          required></textarea>
+
+            </div>
+
+            <div class="total-box">
+
+                <h3>💰 Total Amount</h3>
+
+                <p>Amount to Pay:</p>
+
+                <input type="number"
+                       name="total"
+                       id="totalData"
+
+                <p>PHP</p>
+
+            </div>
+
+        </div>
+
+        <!-- CUSTOMER INFORMATION BELOW -->
+
+        <div class="customer-box">
+
+            <h2>👤 Customer Information</h2>
+
+            <label>Customer Name:</label>
+            <input type="text"
+                   name="name"
+                   value="{{ customer.name }}"
+                   required>
+
+            <label>Contact Number:</label>
+            <input type="text"
+                   name="contact"
+                   value="{{ customer.contact }}"
+                   required>
+
+            <label>Address:</label>
+            <input type="text"
+                   name="address"
+                   value="{{ customer.address }}"
+                   required>
+
+            <button type="submit" class="process-button">
+                💾 Save Updated Order
+            </button>
+
+        </div>
+
+    </form>
+
+    <br>
+
+    <a href="{{ url_for('view_queue') }}" class="back-button">
+        ← Back to Queue
+    </a>
+
+</div>
+
+
+<script>
+
+const prices = {
+    "Burger": 99,
+    "Fries": 59,
+    "Coke": 40
+};
+
+let order = {};
+
+// Load the customer's existing order
+const existingOrder = {{ customer.order | tojson }};
+
+function loadExistingOrder() {
+
+    const lines = existingOrder.split("\n");
+
+    lines.forEach(function(line) {
+
+        const match = line.match(/^(Burger|Fries|Coke)\s+x\s+(\d+)/);
+
+        if (match) {
+
+            const name = match[1];
+            const quantity = parseInt(match[2]);
+
+            order[name] = quantity;
+
+        }
+
+    });
+
+    displayOrder();
+}
+
+
+// Add one item
+function addItem(name) {
+
+    if (order[name]) {
+        order[name]++;
+    } else {
+        order[name] = 1;
+    }
+
+    displayOrder();
+}
+
+
+// Remove one item
+function removeItem(name) {
+
+    if (order[name] > 1) {
+        order[name]--;
+    } else {
+        delete order[name];
+    }
+
+    displayOrder();
+}
+
+
+// Display order and calculate total
+function displayOrder() {
+
+    const orderList = document.getElementById("orderList");
+
+    orderList.innerHTML = "";
+
+    let total = 0;
+    let summary = "";
+
+    Object.keys(order).forEach(function(name) {
+
+        const quantity = order[name];
+        const subtotal = prices[name] * quantity;
+
+        total += subtotal;
+
+        summary += name + " x " + quantity +
+                   " = ₱" + subtotal + "\n";
+
+        const row = document.createElement("div");
+
+        row.className = "item-row";
+
+        const details = document.createElement("span");
+        details.textContent = name + " × " + quantity +
+                             " = ₱" + subtotal;
+
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = "−";
+        button.onclick = function() {
+            removeItem(name);
+        };
+
+        row.appendChild(details);
+        row.appendChild(button);
+
+        orderList.appendChild(row);
+
+    });
+
+    if (Object.keys(order).length === 0) {
+        orderList.innerHTML = "<p>No items added yet.</p>";
+    }
+
+    document.getElementById("orderData").value = summary;
+    document.getElementById("totalData").value = total;
+
+}
+
+
+// Prepare before saving
+function prepareUpdate() {
+
+    if (Object.keys(order).length === 0) {
+        alert("Please add at least one food item.");
+        return false;
+    }
+
+    return true;
+
+}
+
+
+// Load the original order when page opens
+loadExistingOrder();
+
+</script>
+
+</body>
+</html>
